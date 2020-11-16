@@ -11,6 +11,13 @@ public class Computer implements Serializable {
     int pricePerHour;
     boolean using = false;
 
+    public Computer(String userName, String operatingSystem, String processor, int pricePerHour) {
+        this.userName = userName;
+        this.operatingSystem = operatingSystem;
+        this.processor = processor;
+        this.pricePerHour = pricePerHour;
+    }
+
     public String getUserName() {
         return userName;
     }

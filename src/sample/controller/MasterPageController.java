@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import sample.controller.classControllers.Master.MainTab.MainTabController;
+import sample.controller.classControllers.Master.computership.ComputerShipController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,7 +13,9 @@ import java.util.ResourceBundle;
 
 public class MasterPageController implements Initializable {
 
-    //Main Page**************************************************
+    /**
+     * main page
+     */
     @FXML
     private Button button;
 
@@ -25,21 +28,23 @@ public class MasterPageController implements Initializable {
     @FXML
     private TextField password;
 
-    //Computer's page*******************************************
+    /**
+     * computer page
+     */
     @FXML
-    private TableView table;
+    private TableView<sample.model.Computer> table;
 
     @FXML
-    private TableColumn userNameColl;
+    private TableColumn<sample.model.Computer, String> userNameColl;
 
     @FXML
-    private TableColumn operatingColl;
+    private TableColumn<sample.model.Computer, String> operatingColl;
 
     @FXML
-    private TableColumn processor;
+    private TableColumn<sample.model.Computer, String> processor;
 
     @FXML
-    private TableColumn price;
+    private TableColumn<sample.model.Computer, String> price;
 
     @FXML
     private Label ComputerLabel;
@@ -48,24 +53,48 @@ public class MasterPageController implements Initializable {
     private Button editComputerButton;
 
     @FXML
-    private Button deleteComputerBitton;
+    private Button deleteComputerButton;
 
     @FXML
     private Button addComputerButton;
 
-    private MainTabController controller;
+    /**
+     * tabs
+     */
+    private MainTabController mainTabController;
+    private ComputerShipController computerShipController;
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        controller = new MainTabController(button, checkBox, name, password);
+        mainTabController = new MainTabController(button, checkBox, name, password);
+        computerShipController = new ComputerShipController(table, userNameColl, operatingColl, processor, price,
+                ComputerLabel, editComputerButton, deleteComputerButton, addComputerButton);
     }
 
     public void changePasswordEditable(ActionEvent actionEvent) {
-        controller.changePasswordEditable(actionEvent);
+        mainTabController.changePasswordEditable(actionEvent);
     }
 
     public void updateMaster(ActionEvent actionEvent) throws IOException {
-        controller.updateMaster(actionEvent);
+        mainTabController.updateMaster(actionEvent);
     }
+
+    public void addComputer(ActionEvent actionEvent) {
+        try {
+            computerShipController.addComputer(actionEvent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteComputer(ActionEvent actionEvent) {
+        try {
+            computerShipController.deleteComputer(actionEvent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
