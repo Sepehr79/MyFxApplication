@@ -44,7 +44,7 @@ public class MasterPageController implements Initializable {
     private TableColumn<sample.model.Computer, String> processor;
 
     @FXML
-    private TableColumn<sample.model.Computer, String> price;
+    private TableColumn<sample.model.Computer, Integer> price;
 
     @FXML
     private Label ComputerLabel;

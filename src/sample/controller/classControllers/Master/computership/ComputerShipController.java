@@ -3,11 +3,16 @@ package sample.controller.classControllers.Master.computership;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.NumberStringConverter;
 import sample.model.Computer;
 import sample.model.modelControllers.FileHelper;
 import sample.model.modelControllers.List;
@@ -30,7 +35,7 @@ public class ComputerShipController {
     private TableColumn<Computer, String> processor;
 
 
-    private TableColumn<Computer, String> price;
+    private TableColumn<Computer, Integer> price;
 
 
     private Label ComputerLabel;
@@ -50,7 +55,7 @@ public class ComputerShipController {
 
 
     public ComputerShipController(TableView<Computer> table, TableColumn<Computer, String> userNameColl, TableColumn<Computer, String> operatingColl, TableColumn<Computer, String> processor,
-                                  TableColumn<Computer, String> price, Label computerLabel, Button editComputerButton, Button deleteComputerButton,
+                                  TableColumn<Computer, Integer> price, Label computerLabel, Button editComputerButton, Button deleteComputerButton,
                                   Button addComputerButton) {
 
         try {
@@ -66,12 +71,44 @@ public class ComputerShipController {
 
         this.userNameColl = userNameColl;
         userNameColl.setCellValueFactory(new PropertyValueFactory<Computer, String>("userName"));
+        userNameColl.setCellFactory(TextFieldTableCell.forTableColumn());
+        userNameColl.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Computer, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Computer, String> event) {
+
+            }
+        });
+
+
         this.operatingColl = operatingColl;
         operatingColl.setCellValueFactory(new PropertyValueFactory<Computer, String>("operatingSystem"));
+        operatingColl.setCellFactory(TextFieldTableCell.forTableColumn());
+        operatingColl.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Computer, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Computer, String> event) {
+
+            }
+        });
+
         this.processor = processor;
         processor.setCellValueFactory(new PropertyValueFactory<Computer, String>("processor"));
+        processor.setCellFactory(TextFieldTableCell.forTableColumn());
+        processor.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Computer, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Computer, String> event) {
+                
+            }
+        });
+
         this.price = price;
-        price.setCellValueFactory(new PropertyValueFactory<Computer, String>("pricePerHour"));
+        price.setCellValueFactory(new PropertyValueFactory<Computer, Integer>("pricePerHour"));
+        price.setCellFactory(TextFieldTableCell.<Computer, Integer>forTableColumn(new IntegerStringConverter()));
+        price.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Computer, Integer>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<Computer, Integer> event) {
+
+            }
+        });
 
         ComputerLabel = computerLabel;
         this.editComputerButton = editComputerButton;
@@ -80,13 +117,14 @@ public class ComputerShipController {
 
 
         table.setItems(data);
+        table.setEditable(true);
 
 
 
     }
 
     public void addComputer(ActionEvent actionEvent) throws Exception {
-        Computer computer = new Computer("N56J0", "Windows 10", "Core i7", 5000);
+        Computer computer = new Computer("N56J", "Windows 10", "Core i7", 5000);
         list.add(computer);
         data.add(computer);
         FileHelper.writeList(list);
